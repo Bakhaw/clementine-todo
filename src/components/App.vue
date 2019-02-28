@@ -1,14 +1,19 @@
 <template>
   <div id="app">
-    <div>
-      <v-text-field
-        autofocus
-        color="#918CFC"
-        label="What needs to be done"
-        v-model="newTodo"
-        @keyup.enter="addTodo"
-      ></v-text-field>
-    </div>
+    <v-text-field
+      autofocus
+      color="#918CFC"
+      label="What needs to be done"
+      v-model="newTodo"
+      @keyup.enter="addTodo"
+    ></v-text-field>
+
+    <ul>
+      <li v-for="(todo, index) in todos" :key="todo.id">
+        <span>{{ todo.name }}</span>
+        <span @click="removeTodo(index)">Remove</span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -31,6 +36,9 @@ export default {
         completed: false
       });
       this.newTodo = "";
+    },
+    removeTodo(index) {
+      this.todos.splice(index, 1);
     }
   }
 };
