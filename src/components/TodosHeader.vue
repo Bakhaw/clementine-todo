@@ -1,8 +1,8 @@
 <template>
-  <div class="Todos__header">
+  <div class="todos-header">
     <v-text-field
       solo
-      class="Todos__input"
+      class="add-todo-input"
       color="#0c1e29"
       label="Type here and press Enter"
       v-model="inputValue"
@@ -31,7 +31,7 @@ export default {
 
 
 <style>
-.Todos__header {
+.todos-header {
   height: 110px;
   display: flex;
   justify-content: center;
@@ -42,7 +42,7 @@ export default {
   background: #00e7a8;
   border-radius: 2px 2px 0 0;
 }
-.Todos__input {
+.add-todo-input {
   align-self: center;
   width: 300px;
 }

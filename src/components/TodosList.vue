@@ -1,19 +1,50 @@
 <template>
-  <ul class="Todos__list">
+  <ul class="todo-list">
     <li
-      class="Todos__list__item"
-      v-bind:class="{ Todo__completed: todo.completed }"
+      class="todo"
+      v-bind:class="{ 'todo-completed': todo.completed }"
       v-for="(todo, index) in todos"
       :key="todo.id"
     >
-      <div class="Todos__list__item__left">
-        <img src="../../static/clementine.png" @click="toggleCompleteTodo(index)">
-        <span>{{ todo.title }}</span>
+      <div class="todo-left-content">
+        <img
+          class="todo-toggle-complete"
+          src="../../static/clementine.png"
+          @click="toggleCompleteTodo(index)"
+        >
+        <div class="todo-title">
+          <span v-if="!todo.editing">{{ todo.title }}</span>
+          <v-text-field
+            solo
+            class="edit-todo-input"
+            color="#0c1e29"
+            label="Type here and press Enter"
+            v-else
+            v-model="todo.title"
+            @keyup.enter="editTodo(index)"
+          ></v-text-field>
+          <!-- <input class="todo-edit-input" type="text" v-else v-model="todo.title"> -->
+        </div>
       </div>
 
-      <div class="Todos__list__item__actions">
-        <img src="../../static/edit-icon.svg" @click="editTodo(index)">
-        <img src="../../static/remove-icon.svg" @click="removeTodo(index)">
+      <div class="todo-actions">
+        <img
+          class="todo-actions-icon"
+          src="../../static/edit-icon.svg"
+          v-if="!todo.editing"
+          @click="editTodo(index)"
+        >
+        <img
+          class="todo-actions-icon"
+          src="../../static/validate-icon.svg"
+          v-else
+          @click="editTodo(index)"
+        >
+        <img
+          class="todo-actions-icon"
+          src="../../static/remove-icon.svg"
+          @click="removeTodo(index)"
+        >
       </div>
     </li>
   </ul>
@@ -22,16 +53,16 @@
 <script>
 export default {
   name: "TodosList",
-  props: ["todos", "toggleCompleteTodo", "removeTodo", "editTodo"]
+  props: ["todos", "removeTodo", "editTodo", "toggleCompleteTodo"]
 };
 </script>
 
 <style>
-.Todos__list {
+.todo-list {
   max-height: 390px;
   overflow: scroll;
 }
-.Todos__list__item {
+.todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,17 +70,23 @@ export default {
   height: 70px;
   position: relative;
 }
-.Todos__list__item__left {
+.todo-left-content {
   display: flex;
   align-items: center;
   width: 200px;
 }
-.Todos__list__item__left img {
+.todo-toggle-complete {
+  cursor: pointer;
   height: 22px;
   width: 22px;
   margin-right: 10px;
 }
-.Todos__list__item__left span {
+.todo-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.todo-title span {
   text-transform: capitalize;
   color: #212121;
   font-size: 20px;
@@ -58,21 +95,24 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.Todos__list__item__actions {
+.edit-todo-input {
+  margin-top: 25px !important;
+}
+.todo-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.Todos__list__item__actions img {
+.todo-actions-icon {
   cursor: pointer;
   height: 17px;
   width: 17px;
   margin-left: 20px;
 }
-.Todo__completed {
+.todo-completed {
   opacity: 0.7;
 }
-.Todo__completed:after {
+.todo-completed:after {
   position: absolute;
   height: 2px;
   background: #6a57f8;

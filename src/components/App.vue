@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <div class="Todos">
+    <div class="todos-container">
       <todos-header v-bind:addTodo="addTodo"/>
       <todos-list
         v-bind:todos="todos"
         v-bind:removeTodo="removeTodo"
+        v-bind:editTodo="editTodo"
         v-bind:toggleCompleteTodo="toggleCompleteTodo"
       />
     </div>
@@ -32,8 +33,11 @@ export default {
   },
   methods: {
     async fetchTodos() {
-      const url = "https://jsonplaceholder.typicode.com/todos";
-      let { data } = await axios.get(url);
+      const API_URL = "https://jsonplaceholder.typicode.com/todos";
+      let { data } = await axios.get(API_URL);
+      data.forEach(element => {
+        element.editing = false;
+      });
       this.todos = data;
     },
     addTodo(newTodo) {
@@ -42,17 +46,22 @@ export default {
       this.todos.unshift({
         id: this.todos.length,
         title: newTodo,
-        completed: false
+        completed: false,
+        editing: false
       });
     },
     removeTodo(index) {
-      // - /todos/{id} DELETE
-      // Route qui supprime une todo
-      // Je ne comprends pas comment la route fonctionne je crois
       this.todos.splice(index, 1);
     },
+    editTodo(index) {
+      const selectedTodo = this.todos[index];
+      if (selectedTodo.completed) return;
+      selectedTodo.editing = !selectedTodo.editing;
+    },
     toggleCompleteTodo(index) {
-      this.todos[index].completed = !this.todos[index].completed;
+      const selectedTodo = this.todos[index];
+      selectedTodo.editing = false;
+      selectedTodo.completed = !selectedTodo.completed;
     }
   }
 };
@@ -89,7 +98,7 @@ li {
     #6268f6
   );
 }
-.Todos {
+.todos-container {
   display: flex;
   flex-direction: column;
   min-height: 500px;
