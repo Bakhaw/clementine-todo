@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <h1 class="app-title">No more space in your brain ?
+      <br>You're at the right place !
+    </h1>
     <div class="todos-container">
       <todos-header v-bind:addTodo="addTodo"/>
       <todos-list
@@ -97,6 +100,11 @@ li {
     #6560f7,
     #6268f6
   );
+}
+.app-title {
+  color: #f5f5f5;
+  font-size: 26px;
+  text-align: center;
 }
 .todos-container {
   display: flex;
