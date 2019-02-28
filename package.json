@@ -6,7 +6,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "poi",
+    "dev": "poi --port 8080",
     "build": "poi build",
     "report": "poi build --bundle-report",
     "serve": "serve dist --single"
@@ -18,7 +18,8 @@
   "dependencies": {
     "normalize.css": "^7.0.0",
     "object-assign": "^4.1.1",
-    "promise-polyfill": "^6.0.2"
+    "promise-polyfill": "^6.0.2",
+    "vuetify": "^1.5.3"
   },
   "devDependencies": {
     "poi": "^9.0.0",
