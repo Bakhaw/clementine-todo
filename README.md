@@ -18,4 +18,4 @@ npm install
 npm run dev
 ```
 
-Open your browser and visit [http://localhost:8080/](http://localhost:8080/).
+Visit [http://localhost:8080/](http://localhost:8080/) and enjoy 😁🍿
