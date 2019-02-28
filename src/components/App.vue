@@ -1,42 +1,36 @@
 <template>
   <div id="app">
-    <v-text-field
-      autofocus
-      color="#918CFC"
-      label="What needs to be done"
-      v-model="newTodo"
-      @keyup.enter="addTodo"
-    ></v-text-field>
-
-    <ul>
-      <li v-for="(todo, index) in todos" :key="todo.id">
-        <span>{{ todo.name }}</span>
-        <span @click="toggleCompleteTodo(index)">Complete</span>
-        <span @click="removeTodo(index)">Remove</span>
-      </li>
-    </ul>
+    <div class="Todos">
+      <todos-header v-bind:addTodo="addTodo"/>
+      <todos-list v-bind:todos="todos" v-bind:removeTodo="removeTodo"/>
+    </div>
   </div>
 </template>
 
 <script>
+import TodosHeader from "./TodosHeader.vue";
+import TodosList from "./TodosList.vue";
+
 export default {
   name: "app",
+  components: {
+    TodosHeader,
+    TodosList
+  },
   data() {
     return {
-      newTodo: "",
       todos: []
     };
   },
   methods: {
-    addTodo() {
-      if (this.newTodo === "") return;
+    addTodo(newTodo) {
+      if (newTodo === "") return;
 
       this.todos.push({
         id: this.todos.length,
-        name: this.newTodo,
+        title: newTodo,
         completed: false
       });
-      this.newTodo = "";
     },
     removeTodo(index) {
       this.todos.splice(index, 1);
@@ -50,3 +44,43 @@ export default {
 
 <!-- CSS libraries -->
 <style src="normalize.css/normalize.css"></style>
+
+<style>
+* {
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+li {
+  list-style-type: none;
+}
+#app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(
+    to right bottom,
+    #7641f8,
+    #6f4df9,
+    #6a57f8,
+    #6560f7,
+    #6268f6
+  );
+}
+.Todos {
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+  width: 400px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+</style>
