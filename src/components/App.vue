@@ -11,6 +11,7 @@
     <ul>
       <li v-for="(todo, index) in todos" :key="todo.id">
         <span>{{ todo.name }}</span>
+        <span @click="toggleCompleteTodo(index)">Complete</span>
         <span @click="removeTodo(index)">Remove</span>
       </li>
     </ul>
@@ -39,6 +40,9 @@ export default {
     },
     removeTodo(index) {
       this.todos.splice(index, 1);
+    },
+    toggleCompleteTodo(index) {
+      this.todos[index].completed = !this.todos[index].completed;
     }
   }
 };
