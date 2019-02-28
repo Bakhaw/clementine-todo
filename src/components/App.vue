@@ -2,16 +2,24 @@
   <div id="app">
     <div class="Todos">
       <todos-header v-bind:addTodo="addTodo"/>
-      <todos-list v-bind:todos="todos" v-bind:removeTodo="removeTodo"/>
+      <todos-list
+        v-bind:todos="todos"
+        v-bind:removeTodo="removeTodo"
+        v-bind:toggleCompleteTodo="toggleCompleteTodo"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import TodosHeader from "./TodosHeader.vue";
 import TodosList from "./TodosList.vue";
 
 export default {
+  beforeMount() {
+    this.fetchTodos();
+  },
   name: "app",
   components: {
     TodosHeader,
@@ -23,16 +31,24 @@ export default {
     };
   },
   methods: {
+    async fetchTodos() {
+      const url = "https://jsonplaceholder.typicode.com/todos";
+      let { data } = await axios.get(url);
+      this.todos = data;
+    },
     addTodo(newTodo) {
       if (newTodo === "") return;
 
-      this.todos.push({
+      this.todos.unshift({
         id: this.todos.length,
         title: newTodo,
         completed: false
       });
     },
     removeTodo(index) {
+      // - /todos/{id} DELETE
+      // Route qui supprime une todo
+      // Je ne comprends pas comment la route fonctionne je crois
       this.todos.splice(index, 1);
     },
     toggleCompleteTodo(index) {
